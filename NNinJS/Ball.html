@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Ball Motion</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const WIDTH = canvas.width;
+        const HEIGHT = canvas.height;
+        const WHITE = '#FFFFFF';
+        const RED = '#FF0000';
+
+        let x = WIDTH / 2;
+        let y = HEIGHT / 2;
+        let speedX = Math.random() * 6 - 3; // случайная скорость по x
+        let speedY = Math.random() * 6 - 3; // случайная скорость по y
+        const speedLimit = 5;
+
+        function update() {
+            x += speedX;
+            y += speedY;
+
+            // Проверка столкновения с границами холста
+            if (x <= 0 || x >= WIDTH) {
+                speedX = -speedX; // изменяем направление по x
+            }
+            if (y <= 0 || y >= HEIGHT) {
+                speedY = -speedY; // изменяем направление по y
+            }
+
+            // Очистка холста
+            ctx.fillStyle = WHITE;
+            ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+            // Рисуем мячик
+            ctx.beginPath();
+            ctx.fillStyle = RED;
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+</html>
